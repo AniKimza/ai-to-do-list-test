@@ -2,13 +2,13 @@ import { Stack } from "@mui/system"
 import { ArticleCard } from "./Card"
 import { Grid, TextInput, Container, SimpleGrid, } from "@mantine/core"
 import { useState } from "react"
+import useChatGPT from "./useChatGPT";
 
 
 
 function App() {
 
-
-const [cardTitle, setCardTitle] = useState('');
+  const { aiResponse, userInput, loading, handleUserInput, handleAiActivate } = useChatGPT();
 
 
   return (
@@ -19,8 +19,8 @@ const [cardTitle, setCardTitle] = useState('');
           <Grid gutter="md">
             <Grid.Col span={8}>
               <TextInput
-                onChange={e => setCardTitle(e.target.value)}
-                value={cardTitle}
+                onChange={handleUserInput}
+                value={userInput}
                 label="Write"
                 mt="md"
                 autoComplete="nope"
@@ -32,13 +32,14 @@ const [cardTitle, setCardTitle] = useState('');
               <ArticleCard
                 image="https://i.imgur.com/Cij5vdL.png"
                 link="https://mantine.dev/"
-                title={cardTitle}
+                title={userInput}
                 rating="outstanding"
-                description="Resident Evil Village is a direct sequel to 2017’s Resident Evil 7, but takes a very different direction to its predecessor, namely the fact that this time round instead of fighting against various mutated zombies, you’re now dealing with more occult enemies like werewolves and vampires."
+                description={loading ? 'loading...' : aiResponse}
                 author={{
                   "name": "Bill Wormeater",
                   "image": "https://images.unsplash.com/photo-1593229874334-90d965f27c42?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
                 }}
+                handleAiActivate = {handleAiActivate}
               />
             </Grid.Col>
           </Grid>

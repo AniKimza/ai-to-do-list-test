@@ -1,4 +1,3 @@
-import { IconBookmark, IconHeart, IconShare } from '@tabler/icons-react';
 import {
   Card,
   Image,
@@ -10,32 +9,39 @@ import {
   Avatar,
   createStyles,
   rem,
-} from '@mantine/core';
-import { IconSettings } from '@tabler/icons-react';
+} from "@mantine/core";
+import { IconSettings } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   card: {
-    position: 'relative',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    position: "relative",
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
 
   rating: {
-    position: 'absolute',
+    position: "absolute",
     top: theme.spacing.xs,
     right: rem(12),
-    pointerEvents: 'none',
+    pointerEvents: "none",
   },
 
   title: {
-    display: 'block',
+    display: "block",
     marginTop: theme.spacing.md,
     marginBottom: rem(5),
   },
 
   action: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
     ...theme.fn.hover({
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors.gray[1],
     }),
   },
 
@@ -43,8 +49,6 @@ const useStyles = createStyles((theme) => ({
     marginTop: theme.spacing.md,
   },
 }));
-
-
 
 export function ArticleCard({
   className,
@@ -54,20 +58,36 @@ export function ArticleCard({
   description,
   author,
   rating,
+  handleAiActivate,
   ...others
-}){
+}) {
+  
+
   const { classes, cx, theme } = useStyles();
-  const linkProps = { href: link, target: '_blank', rel: 'noopener noreferrer' };
+  const linkProps = {
+    href: link,
+    target: "_blank",
+    rel: "noopener noreferrer",
+  };
 
   return (
-    <Card withBorder radius="md" className={cx(classes.card, className)} {...others}>
+    <Card
+      withBorder
+      radius="md"
+      className={cx(classes.card, className)}
+      {...others}
+    >
       <Card.Section>
         <a {...linkProps}>
           <Image src={image} height={180} />
         </a>
       </Card.Section>
 
-      <Badge className={classes.rating} variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+      <Badge
+        className={classes.rating}
+        variant="gradient"
+        gradient={{ from: "yellow", to: "red" }}
+      >
         {rating}
       </Badge>
 
@@ -87,9 +107,13 @@ export function ArticleCard({
           </Text>
         </Center>
 
-        <Group spacing={8} mr={0}>
-          <ActionIcon aria-label='Generate AI' title='Generate AI' className={classes.action}>
-          <IconSettings size="1rem" />
+        <Group spacing={8} mr={0} onClick={() => handleAiActivate()}>
+          <ActionIcon
+            aria-label="Generate AI"
+            title="Generate AI"
+            className={classes.action}
+          >
+            <IconSettings size="1rem" />
           </ActionIcon>
         </Group>
       </Group>
