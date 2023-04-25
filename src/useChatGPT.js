@@ -2,44 +2,63 @@ import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
 const useChatGPT = () => {
-    const configuration = new Configuration({
-        organization: "org-TTTH7wocXez3qKU1Rt9gfNE5",
-        apiKey: "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",
-      });
-      const openai = new OpenAIApi(configuration);
-    
-      const [aiResponse, setAiResponse] = useState();
-      const [userInput, setUserInput] = useState("");
-      const [loading, setLoading] = useState(false)
-    
-        const aiGenerate = async (customQuestion) => {
-          const completion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [
-              {
-                role: "user",
-                content: `Split this in smaller subtasks: ${customQuestion}`,
-              },
-            ],
-          });
-          setAiResponse(completion.data.choices[0].message.content);
-          setLoading(false)
-        };
-    
-      const handleUserInput = (e) => setUserInput(e.target.value);
-      const handleAiActivate = async() => {
-        setLoading(true)
-        setAiResponse(null)
-        aiGenerate(userInput);
-      };
+  
+  const [aiResponse, setAiResponse] = useState();
+  const [aiImage, setAiImage] = useState();
+  const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
-      return {
-        aiResponse,
-        userInput,
-        loading,
-        handleUserInput,
-        handleAiActivate
-      }
-}
+  const configuration = new Configuration({
+    apiKey: "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",
+  });
 
-export default useChatGPT
+  const imageConfiguration = new Configuration({
+    apiKey: "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",
+  });
+
+  const openai = new OpenAIApi(configuration);
+  const imageOpenAi = new OpenAIApi(imageConfiguration);
+
+  const aiGenerate = async (userInput) => {
+
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: `Split this in smaller subtasks: ${userInput}`,
+        },
+      ],
+    });
+
+    const responseImage = await imageOpenAi.createImage({
+      prompt: userInput,
+      n: 1,
+      size: "256x256",
+    });
+
+    setAiImage(responseImage.data.data[0].url);
+    setAiResponse(completion.data.choices[0].message.content);
+    setLoading(false);
+  };
+
+
+  const handleUserInput = (e) => setUserInput(e.target.value);
+
+  const handleAiActivate = () => {
+    setLoading(true);
+    setAiResponse(null);
+    aiGenerate(userInput);
+  };
+
+  return {
+    aiResponse,
+    aiImage,
+    userInput,
+    loading,
+    handleUserInput,
+    handleAiActivate,
+  };
+};
+
+export default useChatGPT;

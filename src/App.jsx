@@ -8,7 +8,7 @@ import useChatGPT from "./useChatGPT";
 
 function App() {
 
-  const { aiResponse, userInput, loading, handleUserInput, handleAiActivate } = useChatGPT();
+  const { aiResponse, aiImage, userInput, loading, handleUserInput, handleAiActivate } = useChatGPT();
 
 
   return (
@@ -30,7 +30,7 @@ function App() {
           <Grid>
             <Grid.Col span={10}>
               <ArticleCard
-                image="https://i.imgur.com/Cij5vdL.png"
+                image={aiImage}
                 link="https://mantine.dev/"
                 title={userInput}
                 rating="outstanding"
