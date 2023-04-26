@@ -2,18 +2,20 @@ import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
 const useChatGPT = () => {
-  
+
+
   const [aiResponse, setAiResponse] = useState();
   const [aiImage, setAiImage] = useState();
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
 
+
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: import.meta.env.VITE_SUBTASKKEY,
   });
 
   const imageConfiguration = new Configuration({
-    apiKey: "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",
+    apiKey: import.meta.env.VITE_MyImageGeneratorKey,
   });
 
   const openai = new OpenAIApi(configuration);
