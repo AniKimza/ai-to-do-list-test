@@ -1,53 +1,57 @@
-import { Stack } from "@mui/system"
-import { ArticleCard } from "./Card"
-import { Grid, TextInput, Container, SimpleGrid, } from "@mantine/core"
-import { useState } from "react"
-import useChatGPT from "./useChatGPT";
-
+import { Stack } from "@mui/system";
+import { ArticleCard } from "./assets/Card/ArticleCard";
+import { TextField } from "@mui/material";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 
 function App() {
 
-  const { aiResponse, aiImage, userInput, loading, handleUserInput, handleAiActivate } = useChatGPT();
+  const [request, setRequest] = useState('');
 
+  const handleRequest = (e) => {
+    setRequest(e.target.value);
+  };
 
   return (
-    <>
-     <Stack justifyContent={"center"} height={'100vh'}>
-      <Container my='lg' >
-        <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'lg', cols: 1 }]}>
-          <Grid gutter="md">
-            <Grid.Col span={8}>
-              <TextInput
-                onChange={handleUserInput}
-                value={userInput}
-                label="Write"
-                mt="md"
-                autoComplete="nope"
-              />
-            </Grid.Col>
-          </Grid>
-          <Grid>
-            <Grid.Col span={10}>
-              <ArticleCard
-                image={aiImage}
-                link="https://mantine.dev/"
-                title={userInput}
-                rating="outstanding"
-                description={loading ? 'loading...' : aiResponse}
-                author={{
-                  "name": "Bill Wormeater",
-                  "image": "https://images.unsplash.com/photo-1593229874334-90d965f27c42?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
-                }}
-                handleAiActivate = {handleAiActivate}
-              />
-            </Grid.Col>
-          </Grid>
-        </SimpleGrid>
-      </Container>
+    
+      <Stack height='100vh' direction="row" justifyContent="center" alignItems='center' spacing={3}>
+         <motion.div
+    initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.3,
+        ease: [0, 0.71, 0.2, 1.01],
+        scale: {
+          type: "spring",
+          damping: 5,
+          stiffness: 100,
+          restDelta: 0.001
+        }
+      }}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+  >
+        <TextField onChange={handleRequest} />
+        </motion.div>
+        <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.3,
+        ease: [0, 0.71, 0.2, 1.01],
+        scale: {
+          type: "spring",
+          damping: 5,
+          stiffness: 100,
+          restDelta: 0.001
+        }
+      }}
+    >
+        <ArticleCard request={request} />
+        </motion.div>
       </Stack>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
