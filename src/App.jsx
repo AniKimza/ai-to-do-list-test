@@ -3,15 +3,19 @@ import { ArticleCard } from "./assets/Card/ArticleCard";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import useChatGPT from "./useChatGPT";
 
 
 function App() {
 
-  const [request, setRequest] = useState('');
-
-  const handleRequest = (e) => {
-    setRequest(e.target.value);
-  };
+  const {
+    aiResponse,
+    aiImage,
+    userInput,
+    loading,
+    handleUserInput,
+    handleAiActivate,
+  } = useChatGPT();
 
   return (
     
@@ -32,7 +36,7 @@ function App() {
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
   >
-        <TextField onChange={handleRequest} />
+        <TextField onChange={handleUserInput} />
         </motion.div>
         <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -48,7 +52,7 @@ function App() {
         }
       }}
     >
-        <ArticleCard request={request} />
+        <ArticleCard request={userInput} subtasks = {aiResponse} image={aiImage} loading={loading} aiActivate = {handleAiActivate}/>
         </motion.div>
       </Stack>
   );
