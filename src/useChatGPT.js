@@ -4,10 +4,10 @@ import { useState } from "react";
 const useChatGPT = () => {
 
 
-  const [aiResponse, setAiResponse] = useState();
+  const [aiResponse, setAiResponse] = useState([]);
   const [aiImage, setAiImage] = useState();
   const [userInput, setUserInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
 
 
   const configuration = new Configuration({
@@ -28,7 +28,7 @@ const useChatGPT = () => {
       messages: [
         {
           role: "user",
-          content: `Split this in smaller subtasks: ${userInput}`,
+          content: `Split this in smaller subtasks and put a $ after each subtask: ${userInput}`,
         },
       ],
     });
@@ -40,7 +40,7 @@ const useChatGPT = () => {
     });
 
     setAiImage(responseImage.data.data[0].url);
-    setAiResponse(completion.data.choices[0].message.content);
+    setAiResponse(completion.data.choices[0].message.content.split('$'));
     setLoading(false);
   };
 
