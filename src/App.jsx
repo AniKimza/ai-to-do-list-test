@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Stack } from "@mui/system";
 import { TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { ArticleCard } from "./assets/Card/ArticleCard";
-import { FormBackground } from "./assets/FormBackground";
 import useChatGPT from "./useChatGPT";
 
 
@@ -37,7 +35,7 @@ function App() {
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
   >
-        <TextField fullWidth onChange={handleUserInput} />
+        <TextField fullWidth onChange={handleUserInput} placeholder="Write your To DO Here" />
         </motion.div>
         <motion.div
         style={{width: '50%'}}

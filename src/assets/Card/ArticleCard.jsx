@@ -12,7 +12,9 @@ import Stack from "@mui/material/Stack";
 import { FormBackground } from "../FormBackground";
 import RingLoader from "react-spinners/RingLoader";
 import loader from "./loader.png";
-import { Button } from "@mui/material";
+import { useResizeDetector } from 'react-resize-detector';
+import './iconButton.css'
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,9 +29,12 @@ const ExpandMore = styled((props) => {
 
 export const ArticleCard = (element) => {
   const [expanded, setExpanded] = useState(false);
-  const [cardWidth, setCardWidth] = useState("280px");
-  const [cardHeight, setCardHeight] = useState("377px");
-  const ref = useRef(null);
+  // const [cardWidth, setCardWidth] = useState("280px");
+  // const [cardHeight, setCardHeight] = useState("377px");
+  const { width, height, ref } = useResizeDetector();
+
+  console.log(width)
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -41,7 +46,7 @@ export const ArticleCard = (element) => {
       return <RingLoader color="purple" size={275} />;
     }
     if (element.loading === false) {
-      return <img style={{ borderRadius: "15px", width: 275 }} src={element.image} />;
+      return <img style={{ borderRadius: "15px", width: '100%' }} src={element.image} />;
     }
     return (
       <img style={{ borderRadius: "15px", width: "275px" }} src={loader}></img>
@@ -52,7 +57,7 @@ export const ArticleCard = (element) => {
 
   return (
     <Stack>
-      <FormBackground width={cardWidth} height={cardHeight} />
+      {width && <FormBackground width={width} height={height}/>}
 
       <Card
         ref={ref}
@@ -66,7 +71,7 @@ export const ArticleCard = (element) => {
           webkitBackdropFilter: "blur(7.3px)",
           border: "1px solid rgba(239, 226, 226, 0.31)",
         }}
-      >
+        >
         <Stack width={"100%"} alignItems={"center"}>
           <CardHeader title={currentDate} subheader="Test me out today!" />
           <CardContent>
@@ -84,7 +89,9 @@ export const ArticleCard = (element) => {
             onClick={handleExpandClick}
             aria-expanded={expanded}
           >
-            <DeveloperBoardIcon />
+            {/* <div  className="icon-button"> */}
+            <DeveloperBoardIcon className="icon-button"/>
+            {/* </div> */}
           </ExpandMore>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
